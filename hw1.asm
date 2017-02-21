@@ -9,7 +9,7 @@ org 100h
 start:
 	variables:
 		jmp begin
-		new_name db 20,0,0,1,0,'= 256 + 32',0
+		new_name db 20h,0,0,1,0,'= 256 + 32',0
 		len			 dw	$-new_name
 
 	begin:
@@ -32,7 +32,7 @@ start:
 		rep movsb
 
 		; terminate and stay resident
-		lea dx, new_name
+		lea dx, start
 		int 27h
 
 end start
