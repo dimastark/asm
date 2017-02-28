@@ -12,7 +12,8 @@ start:
 		jmp begin
 
     handler	proc far
-    	call dword ptr cs:[old_2fh]
+			mov ax, 'DS'
+    	jmp dword ptr cs:[old_2fh]
     handler	endp
 
     old_2fh  dw	?, ?
@@ -50,11 +51,18 @@ start:
   	int	21h
 
 		; terminate and stay resident
-		lea dx, start
+		lea dx, begin
 		int 27h
+
+		help proc
+
+		endp help
+
 
 end start
 
+
+; можно добавить аргумент - код авторизации
 
 ; /h - помощь
 ; /i - установка
