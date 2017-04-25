@@ -17,8 +17,6 @@ start:
   add ax, 0b800h
   cmp bl, 2
   jge go
-  mov bp, 6
-  jmp go
   v7:
   add ax, 0b000h
   go:
@@ -35,6 +33,7 @@ start:
   mov di, bp
   shr di, 1
   inc di
+  add di, 4*80
   mov bx, 0c9cdh
   mov dx, 0d1bbh
   call border

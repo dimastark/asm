@@ -141,10 +141,10 @@ kill:
 	mov es:[2fh*4], dx
 	sti
 
-	pop 	ds
-	pop 	es
-	mov 	ah, 49h
-	int 	21h
+	pop ds
+	pop	es
+	mov	ah, 49h
+	int	21h
 jmp no_errors
 
 state:
