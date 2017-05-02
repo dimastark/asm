@@ -22,22 +22,22 @@ start:
   mov ah, 0
   mov bp, ax
 
-  @@1:
+  _1:
     xor dx, dx
     div bx
     push dx
-    loop @@1
+    loop _1
  
   xor di, di
   mov cx, 3
 
-  @@2:
+  _2:
     pop dx
     add dl, 30h
     mov ah, 2
     int 21h
     add di, 2
-    loop @@2
+    loop _2
 
   mov dl, 10
   int 21h

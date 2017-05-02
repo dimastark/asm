@@ -84,7 +84,6 @@ play_note proc
 endp play_note
 
 old_09h dw ?, ?
-current_code db ?
 
 handler proc
   pushf
@@ -97,20 +96,22 @@ handler proc
   iret
 
   press:
-  mov byte ptr current_code, al
+  mov ah, 0
+  mov [current_code], ax
   jmp return
 
   release:
-  ;mov dl, byte ptr current_code
-  ;add dl, 80h
-  ;cmp al, dl
-  ;jne return
+  mov ah, 0
+  sub ax, 80h
+  cmp [current_code], ax
+  jne return
   call term
 
   return:
   iret
 
 handler endp
+current_code dw 0
 
 ;                  C     C#    D     D#    E     F     F#    G     G#    A     A#    B
 frequency dw 0, 0, 9121, 8609, 8126, 7670, 7239, 6833, 6449, 6087, 5746, 5423, 5119, 4831, 0, 0
