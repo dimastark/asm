@@ -334,8 +334,10 @@ endp start_level
     call mov_bullet_e
     call draw_bullet_e
 
+    cmp [mn], 0
+    jne nnnn
     call redraw_grass
-
+    nnnn:
     call async_sound
     iret
   endp handler_1ch
