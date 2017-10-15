@@ -3,4 +3,5 @@
 !.gitignore
 !*.asm
 !*_semester/
+!*.s
 

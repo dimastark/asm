@@ -33,6 +33,10 @@ def main(filename):
     image = Image.open(filename)
     pixels = sum(get_pixels(image), [])
     palette = {
+        (5, 5, 144): 1,
+        (18, 18, 148): 16,
+        (18, 18, 176): 16,
+        (18, 18, 166): 16,
         (255, 0, 0): 4,
         (255,204,153): 90,
         (255, 153, 255): 36,
@@ -67,7 +71,9 @@ def main(filename):
         (173, 173, 173): 25,
         (0, 82, 8): 2,
         (140, 214, 0): 11,
-        (8, 74, 0): 2
+        (8, 74, 0): 2,
+        (0, 0, 74): 127,
+	(18, 18, 160): 1
     }
     colors = list(map(lambda x: palette[x], pixels))
     merged = merge_duplicates(colors)
