@@ -3,5 +3,6 @@
 !.gitignore
 !*.asm
 !*_semester/
+!*.py
 !*.s
-
+!*.c
