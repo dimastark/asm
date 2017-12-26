@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int packInt(int const data, int offset, char result[]) {
+int pack_int(int const data, int offset, char *result) {
     result[offset] = (unsigned char) ((data >> 24) & 0xFF);
     result[offset + 1] = (unsigned char) ((data >> 16) & 0xFF);
     result[offset + 2] = (unsigned char) ((data >> 8) & 0xFF);
@@ -9,7 +9,7 @@ int packInt(int const data, int offset, char result[]) {
     return 4;
 }
 
-int unpackInt(char const data[], int offset) {
+int unpack_int(const char *data, int offset) {
     unsigned char result[4];
 
     result[3] = (unsigned char) ((data[offset + 3] >> 24) & 0xFF);
@@ -30,19 +30,19 @@ int pack(const char from[], char result[], int offset) {
     return packed;
 }
 
-int packString(const char data[], char result[], int offset) {
+int pack_string(const char *data, char *result, int offset) {
     int blockLength = pack(data, result, offset + 4);
 
-    return blockLength + packInt(blockLength, offset, result);
+    return blockLength + pack_int(blockLength, offset, result);
 }
 
-int unpackString(const char data[], char result[], int offset) {
+int unpack_string(const char *data, char *result, int offset) {
     char blockSize[4];
     for (int i = 0; i < 4; i++) {
         blockSize[3 - i] = data[offset + i];
     }
 
-    int blockLength = unpackInt(blockSize, 0);
+    int blockLength = unpack_int(blockSize, 0);
     for (int i = 0; i < blockLength; i++) {
         result[i] = data[offset + 4 + i];
     }
@@ -51,10 +51,10 @@ int unpackString(const char data[], char result[], int offset) {
     return blockLength + 4;
 }
 
-void printStrings(const char data[], int offset, int count) {
+void print_strings(const char *data, int offset, int count) {
     for (int i = 0; i < count; i++) {
         char output[32768];
-        offset += unpackString(data, output, offset);
+        offset += unpack_string(data, output, offset);
         puts(output);
     }
 }

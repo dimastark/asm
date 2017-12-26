@@ -4,9 +4,10 @@
 #include <stdlib.h>
 
 #define PORT 31000
+#define ADDR "10.96.19.24"
 
 int create_client_socket() {
-    int sock = socket(AF_INET , SOCK_STREAM , 0);
+    int sock = socket(AF_INET, SOCK_STREAM , 0);
     if (sock == -1) {
         perror("Couldn't create socket");
         exit(1);
@@ -17,7 +18,7 @@ int create_client_socket() {
 
 struct sockaddr_in get_server_description() {
     struct sockaddr_in server = {
-            .sin_addr.s_addr = inet_addr("127.0.0.1"),
+            .sin_addr.s_addr = inet_addr(ADDR),
             .sin_family = AF_INET,
             .sin_port = htons(PORT)
     };

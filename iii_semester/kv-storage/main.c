@@ -26,7 +26,7 @@ int list(int sock) {
     send(sock, "\0\0", 2, 0);
     recv(sock, server_reply, 32768, 0);
 
-    printStrings(server_reply, 2, server_reply[1]);
+    print_strings(server_reply, 2, server_reply[1]);
 
     return strcmp(server_reply, "\0") == 0;
 }
@@ -35,8 +35,8 @@ int set(int sock, char const *key, char const *value) {
     char packet[32768] = {1, 2};
     int packedCount = 2;
 
-    packedCount += packString(key, packet, packedCount);
-    packedCount += packString(value, packet, packedCount);
+    packedCount += pack_string(key, packet, packedCount);
+    packedCount += pack_string(value, packet, packedCount);
 
     send(sock, packet, (size_t) packedCount, 0);
     recv(sock, server_reply, 32768, 0);
@@ -44,17 +44,17 @@ int set(int sock, char const *key, char const *value) {
     return strcmp(server_reply, "\0\0");
 }
 
-int setFn(int sock, char *filename) {
+int set_fn(int sock, char *filename) {
     char packet[32768] = {1, 2};
     int packedCount = 2;
 
-    packedCount += packString(filename, packet, packedCount);
+    packedCount += pack_string(filename, packet, packedCount);
 
     char* content = readAllFile(filename);
     if (content == NULL) {
         return 1;
     } else {
-        packedCount += packString(content, packet, packedCount);
+        packedCount += pack_string(content, packet, packedCount);
     }
 
     send(sock, packet, (size_t) packedCount, 0);
@@ -67,12 +67,12 @@ int get(int sock, char *key) {
     char packet[32768] = {2, 1};
     int packedCount = 2;
 
-    packedCount += packString(key, packet, packedCount);
+    packedCount += pack_string(key, packet, packedCount);
 
     send(sock, packet, (size_t) packedCount, 0);
     recv(sock, server_reply, 32768, 0);
 
-    printStrings(server_reply, 2, server_reply[1]);
+    print_strings(server_reply, 2, server_reply[1]);
 
     return strcmp(server_reply, "\0") == 0;
 }
@@ -81,12 +81,12 @@ int delete(int sock, char *key) {
     char packet[32768] = {3, 1};
     int packedCount = 2;
 
-    packedCount += packString(key, packet, packedCount);
+    packedCount += pack_string(key, packet, packedCount);
 
     send(sock, packet, (size_t) packedCount, 0);
     recv(sock, server_reply, 32768, 0);
 
-    printStrings(server_reply, 2, server_reply[1]);
+    print_strings(server_reply, 2, server_reply[1]);
 
     return strcmp(server_reply, "\0");
 }
@@ -95,7 +95,7 @@ int count(int sock) {
     send(sock, "\4\0", 2, 0);
     recv(sock, server_reply, 32768, 0);
 
-    printStrings(server_reply, 2, server_reply[1]);
+    print_strings(server_reply, 2, server_reply[1]);
 
     return strcmp(server_reply, "\0") == 0;
 }
@@ -116,7 +116,7 @@ int main(int argc, char *argv[]) {
     } else if (strcmp(argv[1], "+") == 0 && argv[2] != NULL && argv[3] != NULL) {
         result = set(sock, argv[2], argv[3]);
     } else if (strcmp(argv[1], "+") == 0 && argv[2] != NULL) {
-        result = setFn(sock, argv[2]);
+        result = set_fn(sock, argv[2]);
     } else if (strcmp(argv[1], "?") == 0 && argv[2] != NULL) {
         result = get(sock, argv[2]);
     } else if (strcmp(argv[1], "-") == 0 && argv[2] != NULL) {
